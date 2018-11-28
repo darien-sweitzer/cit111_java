@@ -98,8 +98,6 @@ public class Dungeon {
             System.out.println(" - " + wizardSpell.ability3 + ": Summons a Wolf to Attack for you Dealing (175 - 225) Damage with a 50% Chance to Summon a Lion to Deal Critical Damage");
         }
 
-        
-
         System.out.println("\nTime to Fight! Are you ready? Enter 5 to Start\n");
         int startGame = userInput.nextInt();
 
@@ -112,7 +110,9 @@ public class Dungeon {
                 int notAI = 2;
                 
                 if (rounds == 1) {
-                    System.out.println("\nYou unlock the towering dungeon gate. Before you even have time to step inside, a giant orc starts charging at you.");
+                    System.out.println("\n----- Level 1: THE ORC KING -----");
+                    System.out.println("- Green : 8' Tall : 550 Pounds : Sharp Tusks -");
+                    System.out.println("- Dim-Witted : Savage : Fierce : Angry -");
                 }
                 
                 System.out.println("\n--------------------");
@@ -122,7 +122,7 @@ public class Dungeon {
                 System.out.println("--------------------\n");
 
                 System.out.println(" - " + warrior.name + "s Turn");
-                boss1.health = castWarriorAbility(notAI, warrior.name, warrior.health, boss1.health, warriorSpell.ability, warriorSpell.damage, warriorSpell.ability2, warriorSpell.damage2, warriorSpell.ability3, warriorSpell.damage3);
+                boss1.health = castWarriorAbility(notAI, warrior.name, warrior.health, boss1.health, warrior.abilityobject.ability, warrior.abilityobject.damage, warrior.abilityobject.ability2, warrior.abilityobject.damage2, warrior.abilityobject.ability3, warrior.abilityobject.damage3);
 
                 int endGame = death(warrior.health, warrior.name, boss1.health, boss1.name);
 
@@ -136,9 +136,9 @@ public class Dungeon {
                 if (opponentStart == 1) {
 
                     System.out.println("\n - " + boss1.name + "s Turn");
-                    warrior.health = castWizardAbility(AI, wizard.name, wizard.health, warrior.health, wizardSpell.ability, wizardSpell.damage, wizardSpell.ability2, wizardSpell.damage2, wizardSpell.ability3, wizardSpell.damage3);
-
-                    int endGame1 = death(warrior.health, warrior.name, wizard.health, wizard.name);
+                    warrior.health = castOrcKingAbility(notAI, boss1.name, boss1.health, warrior.health, boss1.abilityobject.ability, boss1.abilityobject.damage, boss1.abilityobject.ability2, boss1.abilityobject.damage2, boss1.abilityobject.ability3, boss1.abilityobject.damage3);
+                    
+                    int endGame1 = death(warrior.health, warrior.name, boss1.health, boss1.name);
 
                     if (endGame1 == 1) {
                         break;
@@ -368,6 +368,89 @@ public class Dungeon {
                 System.out.println("Critical Hit!");
                 System.out.println("*" + (wizardSpellDamage3 * 2) + " Damage");
                 warriorHealth = warriorHealth - (wizardSpellDamage3 * 2);
+
+            } // close chooseAnimal
+
+        } // close ability3
+
+        return warriorHealth;
+
+    } // close wizardAbility
+    
+    public static int castOrcKingAbility(int AI, String orcName, int orcHealth, int warriorHealth, String orcSpell, int orcSpellDamage, String orcSpell2, int orcSpellDamage2, String orcSpell3, int orcSpellDamage3) {
+
+        int castAbility;
+
+        if (AI == 1) {
+
+            int choose = 3;
+            castAbility = randomizer.nextInt(choose);
+
+        } else {
+
+            System.out.println("Cast Ability: 1 = " + orcSpell + ", 2 = " + orcSpell2 + ", 3 = " + orcSpell3 + "\n");
+            castAbility = userInput.nextInt();
+            castAbility = castAbility - 1;
+
+        }
+
+        if (castAbility == 0) {
+
+            int max = 100;
+            int moreDamage = randomizer.nextInt(max);
+            orcSpellDamage = orcSpellDamage + moreDamage;
+
+            System.out.println("\n" + orcName + " executes " + orcSpell + "!\n");
+            System.out.println("*" + orcSpellDamage + " Damage");
+
+            warriorHealth = warriorHealth - (orcSpellDamage);
+
+        } // close ability1
+
+        if (castAbility == 1) {
+
+            System.out.println("\n" + orcName + " executes " + orcSpell2 + "!");
+            int miss = 2;
+            int hitTarget = randomizer.nextInt(miss);
+
+            if (hitTarget != 1) {
+
+                int max = 150;
+                int moreDamage = randomizer.nextInt(max);
+                orcSpellDamage2 = orcSpellDamage2 + moreDamage;
+                
+                System.out.println("\n*" + orcSpellDamage2 + " Damage");
+                warriorHealth = warriorHealth - (orcSpellDamage2);
+
+            } else {
+
+                System.out.println("\n" + orcName + " Misses!\n");
+                System.out.println("*0 Damage");
+
+            } // close hitTarget
+
+        } // close castAbility2
+
+        if (castAbility == 2) {
+
+            System.out.println("\n" + orcName + " executes " + orcSpell3 + "!\n");
+            int which = 2;
+            int animal = randomizer.nextInt(which);
+
+            int max = 50;
+            int moreDamage = randomizer.nextInt(max);
+            orcSpellDamage3 = orcSpellDamage3 + moreDamage;
+
+            if (animal == 0) {
+
+                System.out.println("*" + orcSpellDamage3 + " Damage");
+                warriorHealth = warriorHealth - orcSpellDamage3;
+
+            } else {
+
+                System.out.println("Critical Hit!");
+                System.out.println("*" + (orcSpellDamage3 * 2) + " Damage");
+                warriorHealth = warriorHealth - (orcSpellDamage3 * 2);
 
             } // close chooseAnimal
 
